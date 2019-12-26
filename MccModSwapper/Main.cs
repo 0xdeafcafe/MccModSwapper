@@ -1,4 +1,5 @@
-﻿using MccModSwapper.ViewModels;
+﻿using MccModSwapper.Controls;
+using MccModSwapper.ViewModels;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -35,15 +36,13 @@ namespace MccModSwapper
 			}
 
 			txtMccInstallPath.DataBindings.Add("Text", ViewModel, "MccInstallPath", false, DataSourceUpdateMode.OnPropertyChanged);
+			txtMccInstallPath.DataBindings.Add("IsValid", ViewModel, "MccInstallPathValid", false, DataSourceUpdateMode.OnPropertyChanged);
+
 			txtReachModsPath.DataBindings.Add("Text", ViewModel, "ReachModsPath", false, DataSourceUpdateMode.OnPropertyChanged);
+			txtReachModsPath.DataBindings.Add("IsValid", ViewModel, "ReachModsPathValid", false, DataSourceUpdateMode.OnPropertyChanged);
+
 			txtReachCleanPath.DataBindings.Add("Text", ViewModel, "ReachCleanPath", false, DataSourceUpdateMode.OnPropertyChanged);
-
-			checkFolderTypeStatus();
-		}
-
-		private void checkFolderTypeStatus()
-		{
-			
+			txtReachCleanPath.DataBindings.Add("IsValid", ViewModel, "ReachCleanPathValid", false, DataSourceUpdateMode.OnPropertyChanged);
 		}
 
 		private void btnHelp_Click(object sender, EventArgs e)
@@ -97,6 +96,20 @@ namespace MccModSwapper
 			}
 
 			ViewModel.Save();
+		}
+
+		private void txtPath_TextChanged(object sender, EventArgs e)
+		{
+			//var textBox = sender as ExtendedTextBox;
+
+			//if (!Directory.Exists(textBox.Text))
+			//{
+			//	textBox.IsValid = false;
+
+			//	return;
+			//}
+
+			//textBox.IsValid = true;
 		}
 	}
 }

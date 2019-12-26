@@ -12,24 +12,64 @@ namespace MccModSwapper.ViewModels
 		public string MccInstallPath
 		{
 			get { return _mccInstallPath; }
-			set { SetField(ref _mccInstallPath, value, "MccInstallPath"); }
+			set
+			{
+				SetField(ref _mccInstallPath, value, "MccInstallPath");
+				OnPropertyChanged("MccInstallPathValid");
+				OnPropertyChanged("PathsValid");
+				SaveIfValid();
+			}
 		}
 		private string _mccInstallPath = "";
 
 		public string ReachModsPath
 		{
 			get { return _reachModsPath; }
-			set { SetField(ref _reachModsPath, value, "ReachModsPath"); }
+			set
+			{
+				SetField(ref _reachModsPath, value, "ReachModsPath");
+				OnPropertyChanged("ReachModsPathValid");
+				OnPropertyChanged("PathsValid");
+				SaveIfValid();
+			}
 		}
 		private string _reachModsPath = "";
 
 		public string ReachCleanPath
 		{
 			get { return _reachCleanPath; }
-			set { SetField(ref _reachCleanPath, value, "ReachCleanPath"); }
+			set
+			{
+				SetField(ref _reachCleanPath, value, "ReachCleanPath");
+				OnPropertyChanged("ReachCleanPathValid");
+				OnPropertyChanged("PathsValid");
+				SaveIfValid();
+			}
 		}
 		private string _reachCleanPath = "";
 
+		[JsonIgnore]
+		public bool MccInstallPathValid { get { return Directory.Exists(MccInstallPath); } }
+
+		[JsonIgnore]
+		public bool ReachModsPathValid { get { return Directory.Exists(ReachModsPath); } }
+
+		[JsonIgnore]
+		public bool ReachCleanPathValid { get { return Directory.Exists(ReachCleanPath); } }
+
+		[JsonIgnore]
+		public bool PathsValid { get { return MccInstallPathValid && ReachModsPathValid && ReachCleanPathValid; } }
+
+		private void SaveIfValid()
+		{
+			if (!PathsValid)
+				return;
+
+			Program.Logger.LogInformation("Paths are valid, saving settings");
+
+			Save();
+		}
+		
 		public void Save()
 		{
 			File.WriteAllText(_storagePath, JsonConvert.SerializeObject(this));

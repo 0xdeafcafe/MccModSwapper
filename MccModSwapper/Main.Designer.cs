@@ -1,4 +1,6 @@
-﻿namespace MccModSwapper
+﻿using MccModSwapper.Controls;
+
+namespace MccModSwapper
 {
 	partial class Main
 	{
@@ -28,16 +30,16 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.txtMccInstallPath = new System.Windows.Forms.TextBox();
+			this.txtMccInstallPath = new ExtendedTextBox();
 			this.btnMccInstallPath = new System.Windows.Forms.Button();
 			this.lblMccInstallPath = new System.Windows.Forms.Label();
 			this.gbPaths = new System.Windows.Forms.GroupBox();
 			this.btnReachCleanPath = new System.Windows.Forms.Button();
 			this.lblReachCleanPath = new System.Windows.Forms.Label();
-			this.txtReachCleanPath = new System.Windows.Forms.TextBox();
+			this.txtReachCleanPath = new ExtendedTextBox();
 			this.lblReachModsPath = new System.Windows.Forms.Label();
 			this.btnReachModsPath = new System.Windows.Forms.Button();
-			this.txtReachModsPath = new System.Windows.Forms.TextBox();
+			this.txtReachModsPath = new ExtendedTextBox();
 			this.gbSwitcher = new System.Windows.Forms.GroupBox();
 			this.btnDoSwap = new System.Windows.Forms.Button();
 			this.rbSwitchClean = new System.Windows.Forms.RadioButton();
@@ -53,6 +55,7 @@
 			this.txtMccInstallPath.Name = "txtMccInstallPath";
 			this.txtMccInstallPath.Size = new System.Drawing.Size(297, 23);
 			this.txtMccInstallPath.TabIndex = 0;
+			this.txtMccInstallPath.TextChanged += new System.EventHandler(this.txtPath_TextChanged);
 			// 
 			// btnMccInstallPath
 			// 
@@ -219,7 +222,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox txtMccInstallPath;
+		private ExtendedTextBox txtMccInstallPath;
 		private System.Windows.Forms.Button btnMccInstallPath;
 		private System.Windows.Forms.Label lblMccInstallPath;
 		private System.Windows.Forms.GroupBox gbPaths;
@@ -227,12 +230,12 @@
 		private System.Windows.Forms.Label lblReachCleanPath;
 		private System.Windows.Forms.Label lblReachModsPath;
 		private System.Windows.Forms.Button btnReachModsPath;
-		private System.Windows.Forms.TextBox txtReachModsPath;
+		private ExtendedTextBox txtReachModsPath;
 		private System.Windows.Forms.GroupBox gbSwitcher;
 		private System.Windows.Forms.Button btnDoSwap;
 		private System.Windows.Forms.RadioButton rbSwitchClean;
 		private System.Windows.Forms.RadioButton rbSwitchMods;
-		private System.Windows.Forms.TextBox txtReachCleanPath;
+		private ExtendedTextBox txtReachCleanPath;
 		private System.Windows.Forms.Button btnHelp;
 	}
 }
