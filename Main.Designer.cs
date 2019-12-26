@@ -191,6 +191,7 @@
 			this.btnHelp.TabIndex = 1;
 			this.btnHelp.Text = "Help?";
 			this.btnHelp.UseVisualStyleBackColor = true;
+			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// Main
 			// 
@@ -221,7 +222,6 @@
 		private System.Windows.Forms.GroupBox gbPaths;
 		private System.Windows.Forms.Button btnReachCleanPath;
 		private System.Windows.Forms.Label lblReachCleanPath;
-		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Label lblReachModsPath;
 		private System.Windows.Forms.Button btnReachModsPath;
 		private System.Windows.Forms.TextBox txtReachModsPath;
