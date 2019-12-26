@@ -15,9 +15,6 @@ namespace MccModSwapper.Controls
 		[DllImport("user32.dll")]
 		static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-		[DllImport("user32.dll")]
-		static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprc, IntPtr hrgn, uint flags);
-
 		public ExtendedTextBox() : base()
 		{
 			BorderStyle = BorderStyle.Fixed3D;

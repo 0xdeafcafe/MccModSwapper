@@ -1,5 +1,4 @@
-﻿using MccModSwapper.Controls;
-using MccModSwapper.ViewModels;
+﻿using MccModSwapper.ViewModels;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -96,20 +95,6 @@ namespace MccModSwapper
 			}
 
 			ViewModel.Save();
-		}
-
-		private void txtPath_TextChanged(object sender, EventArgs e)
-		{
-			//var textBox = sender as ExtendedTextBox;
-
-			//if (!Directory.Exists(textBox.Text))
-			//{
-			//	textBox.IsValid = false;
-
-			//	return;
-			//}
-
-			//textBox.IsValid = true;
 		}
 	}
 }

@@ -51,15 +51,16 @@ namespace MccModSwapper
 			// 
 			// txtMccInstallPath
 			// 
+			this.txtMccInstallPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtMccInstallPath.Location = new System.Drawing.Point(114, 19);
 			this.txtMccInstallPath.Name = "txtMccInstallPath";
-			this.txtMccInstallPath.Size = new System.Drawing.Size(297, 23);
+			this.txtMccInstallPath.Size = new System.Drawing.Size(363, 23);
 			this.txtMccInstallPath.TabIndex = 0;
-			this.txtMccInstallPath.TextChanged += new System.EventHandler(this.txtPath_TextChanged);
 			// 
 			// btnMccInstallPath
 			// 
-			this.btnMccInstallPath.Location = new System.Drawing.Point(417, 19);
+			this.btnMccInstallPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnMccInstallPath.Location = new System.Drawing.Point(483, 18);
 			this.btnMccInstallPath.Name = "btnMccInstallPath";
 			this.btnMccInstallPath.Size = new System.Drawing.Size(75, 23);
 			this.btnMccInstallPath.TabIndex = 1;
@@ -69,6 +70,7 @@ namespace MccModSwapper
 			// 
 			// lblMccInstallPath
 			// 
+			this.lblMccInstallPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.lblMccInstallPath.AutoSize = true;
 			this.lblMccInstallPath.Location = new System.Drawing.Point(6, 22);
 			this.lblMccInstallPath.Name = "lblMccInstallPath";
@@ -78,25 +80,28 @@ namespace MccModSwapper
 			// 
 			// gbPaths
 			// 
+			this.gbPaths.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbPaths.Controls.Add(this.btnReachCleanPath);
+			this.gbPaths.Controls.Add(this.btnReachModsPath);
+			this.gbPaths.Controls.Add(this.btnMccInstallPath);
 			this.gbPaths.Controls.Add(this.lblReachCleanPath);
 			this.gbPaths.Controls.Add(this.txtReachCleanPath);
 			this.gbPaths.Controls.Add(this.lblReachModsPath);
-			this.gbPaths.Controls.Add(this.btnMccInstallPath);
-			this.gbPaths.Controls.Add(this.btnReachModsPath);
 			this.gbPaths.Controls.Add(this.txtReachModsPath);
 			this.gbPaths.Controls.Add(this.txtMccInstallPath);
 			this.gbPaths.Controls.Add(this.lblMccInstallPath);
 			this.gbPaths.Location = new System.Drawing.Point(12, 12);
 			this.gbPaths.Name = "gbPaths";
-			this.gbPaths.Size = new System.Drawing.Size(501, 110);
+			this.gbPaths.Size = new System.Drawing.Size(564, 110);
 			this.gbPaths.TabIndex = 3;
 			this.gbPaths.TabStop = false;
 			this.gbPaths.Text = "Paths";
 			// 
 			// btnReachCleanPath
 			// 
-			this.btnReachCleanPath.Location = new System.Drawing.Point(417, 76);
+			this.btnReachCleanPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnReachCleanPath.Location = new System.Drawing.Point(483, 76);
 			this.btnReachCleanPath.Name = "btnReachCleanPath";
 			this.btnReachCleanPath.Size = new System.Drawing.Size(75, 23);
 			this.btnReachCleanPath.TabIndex = 1;
@@ -106,6 +111,7 @@ namespace MccModSwapper
 			// 
 			// lblReachCleanPath
 			// 
+			this.lblReachCleanPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.lblReachCleanPath.AutoSize = true;
 			this.lblReachCleanPath.Location = new System.Drawing.Point(6, 80);
 			this.lblReachCleanPath.Name = "lblReachCleanPath";
@@ -115,13 +121,15 @@ namespace MccModSwapper
 			// 
 			// txtReachCleanPath
 			// 
+			this.txtReachCleanPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtReachCleanPath.Location = new System.Drawing.Point(114, 77);
 			this.txtReachCleanPath.Name = "txtReachCleanPath";
-			this.txtReachCleanPath.Size = new System.Drawing.Size(297, 23);
+			this.txtReachCleanPath.Size = new System.Drawing.Size(363, 23);
 			this.txtReachCleanPath.TabIndex = 0;
 			// 
 			// lblReachModsPath
 			// 
+			this.lblReachModsPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.lblReachModsPath.AutoSize = true;
 			this.lblReachModsPath.Location = new System.Drawing.Point(6, 51);
 			this.lblReachModsPath.Name = "lblReachModsPath";
@@ -131,7 +139,8 @@ namespace MccModSwapper
 			// 
 			// btnReachModsPath
 			// 
-			this.btnReachModsPath.Location = new System.Drawing.Point(417, 48);
+			this.btnReachModsPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnReachModsPath.Location = new System.Drawing.Point(483, 47);
 			this.btnReachModsPath.Name = "btnReachModsPath";
 			this.btnReachModsPath.Size = new System.Drawing.Size(75, 23);
 			this.btnReachModsPath.TabIndex = 1;
@@ -141,28 +150,33 @@ namespace MccModSwapper
 			// 
 			// txtReachModsPath
 			// 
+			this.txtReachModsPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtReachModsPath.Location = new System.Drawing.Point(114, 48);
 			this.txtReachModsPath.Name = "txtReachModsPath";
-			this.txtReachModsPath.Size = new System.Drawing.Size(297, 23);
+			this.txtReachModsPath.Size = new System.Drawing.Size(363, 23);
 			this.txtReachModsPath.TabIndex = 0;
 			// 
 			// gbSwitcher
 			// 
+			this.gbSwitcher.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbSwitcher.Controls.Add(this.btnDoSwap);
 			this.gbSwitcher.Controls.Add(this.rbSwitchClean);
 			this.gbSwitcher.Controls.Add(this.rbSwitchMods);
 			this.gbSwitcher.Location = new System.Drawing.Point(12, 128);
 			this.gbSwitcher.Name = "gbSwitcher";
-			this.gbSwitcher.Size = new System.Drawing.Size(501, 102);
+			this.gbSwitcher.Size = new System.Drawing.Size(564, 102);
 			this.gbSwitcher.TabIndex = 4;
 			this.gbSwitcher.TabStop = false;
 			this.gbSwitcher.Text = "Switcher";
 			// 
 			// btnDoSwap
 			// 
+			this.btnDoSwap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnDoSwap.Location = new System.Drawing.Point(6, 72);
 			this.btnDoSwap.Name = "btnDoSwap";
-			this.btnDoSwap.Size = new System.Drawing.Size(486, 23);
+			this.btnDoSwap.Size = new System.Drawing.Size(552, 23);
 			this.btnDoSwap.TabIndex = 1;
 			this.btnDoSwap.Text = "Do le swap";
 			this.btnDoSwap.UseVisualStyleBackColor = true;
@@ -191,9 +205,11 @@ namespace MccModSwapper
 			// 
 			// btnHelp
 			// 
-			this.btnHelp.Location = new System.Drawing.Point(18, 236);
+			this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnHelp.Location = new System.Drawing.Point(12, 236);
 			this.btnHelp.Name = "btnHelp";
-			this.btnHelp.Size = new System.Drawing.Size(486, 23);
+			this.btnHelp.Size = new System.Drawing.Size(564, 23);
 			this.btnHelp.TabIndex = 1;
 			this.btnHelp.Text = "Help?";
 			this.btnHelp.UseVisualStyleBackColor = true;
@@ -203,14 +219,16 @@ namespace MccModSwapper
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(523, 270);
+			this.ClientSize = new System.Drawing.Size(588, 270);
 			this.Controls.Add(this.btnHelp);
 			this.Controls.Add(this.gbSwitcher);
 			this.Controls.Add(this.gbPaths);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
 			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(1000, 309);
+			this.MinimumSize = new System.Drawing.Size(400, 309);
 			this.Name = "Main";
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
 			this.Text = "MCC - Mod Swapper";
 			this.gbPaths.ResumeLayout(false);
 			this.gbPaths.PerformLayout();
