@@ -1,12 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MccModSwapper.ViewModels;
+using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MccModSwapper
 {
 	public partial class Main : Form
 	{
-		private readonly Settings _settings;
+		public readonly MainViewModel ViewModel;
 
 		public Main()
 		{
@@ -14,11 +16,11 @@ namespace MccModSwapper
 
 			try
 			{
-				_settings = Settings.Load();
+				ViewModel = MainViewModel.Load();
 			}
 			catch (Exception ex)
 			{
-				Program.Logger.Log(LogLevel.Error, "Failed to load settings, wiping and creating new settings", ex);
+				Program.Logger.LogError(ex, "Failed to load settings, wiping and creating new settings");
 
 				MessageBox.Show(
 					"Settings failed to load",
@@ -27,10 +29,21 @@ namespace MccModSwapper
 					MessageBoxIcon.Error
 				);
 
-				_settings = new Settings();
+				ViewModel = new MainViewModel();
 
-				_settings.Save();
+				ViewModel.Save();
 			}
+
+			txtMccInstallPath.DataBindings.Add("Text", ViewModel, "MccInstallPath", false, DataSourceUpdateMode.OnPropertyChanged);
+			txtReachModsPath.DataBindings.Add("Text", ViewModel, "ReachModsPath", false, DataSourceUpdateMode.OnPropertyChanged);
+			txtReachCleanPath.DataBindings.Add("Text", ViewModel, "ReachCleanPath", false, DataSourceUpdateMode.OnPropertyChanged);
+
+			checkFolderTypeStatus();
+		}
+
+		private void checkFolderTypeStatus()
+		{
+			
 		}
 
 		private void btnHelp_Click(object sender, EventArgs e)
@@ -38,6 +51,52 @@ namespace MccModSwapper
 			var helpDialog = new Help();
 
 			helpDialog.ShowDialog(this);
+		}
+
+		private void btnPath_Click(object sender, EventArgs e)
+		{
+			string selectedPath;
+			var btn = sender as Button;
+
+			using (var fbd = new FolderBrowserDialog())
+			{
+				fbd.ShowNewFolderButton = false;
+
+				var result = fbd.ShowDialog(this);
+
+				selectedPath = fbd.SelectedPath;
+
+				if (result != DialogResult.OK || string.IsNullOrWhiteSpace(selectedPath))
+					return;
+			}
+
+			if (!Directory.Exists(selectedPath))
+			{
+				Program.Logger.LogInformation("The selected directory doesn't exist", selectedPath, btn.Name);
+				MessageBox.Show("Directory doesn't exist", "The selected directory doesn't exist!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				return;
+			}
+
+
+			switch(btn.Name)
+			{
+				case "btnMccInstallPath":
+					ViewModel.MccInstallPath = selectedPath;
+					break;
+				case "btnReachModsPath":
+					ViewModel.ReachModsPath = selectedPath;
+					break;
+				case "btnReachCleanPath":
+					ViewModel.ReachCleanPath = selectedPath;
+					break;
+
+				default:
+					Program.Logger.LogWarning("Unknown button clicked", btn);
+					return;
+			}
+
+			ViewModel.Save();
 		}
 	}
 }

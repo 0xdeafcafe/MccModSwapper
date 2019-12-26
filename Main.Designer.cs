@@ -62,6 +62,7 @@
 			this.btnMccInstallPath.TabIndex = 1;
 			this.btnMccInstallPath.Text = "Pick";
 			this.btnMccInstallPath.UseVisualStyleBackColor = true;
+			this.btnMccInstallPath.Click += new System.EventHandler(this.btnPath_Click);
 			// 
 			// lblMccInstallPath
 			// 
@@ -98,6 +99,7 @@
 			this.btnReachCleanPath.TabIndex = 1;
 			this.btnReachCleanPath.Text = "Pick";
 			this.btnReachCleanPath.UseVisualStyleBackColor = true;
+			this.btnReachCleanPath.Click += new System.EventHandler(this.btnPath_Click);
 			// 
 			// lblReachCleanPath
 			// 
@@ -132,6 +134,7 @@
 			this.btnReachModsPath.TabIndex = 1;
 			this.btnReachModsPath.Text = "Pick";
 			this.btnReachModsPath.UseVisualStyleBackColor = true;
+			this.btnReachModsPath.Click += new System.EventHandler(this.btnPath_Click);
 			// 
 			// txtReachModsPath
 			// 
