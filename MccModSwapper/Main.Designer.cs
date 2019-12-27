@@ -239,6 +239,7 @@ namespace MccModSwapper
 			this.gbSwitcher.ResumeLayout(false);
 			this.gbSwitcher.PerformLayout();
 			this.ResumeLayout(false);
+			this.Icon = MccModSwapper.Properties.Resources.ShittyIcon;
 
 		}
 
