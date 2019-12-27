@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using MccModSwapper.ViewModels;
 using Emet.FileSystems;
 using MccModSwapper.Enums;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace MccModSwapper
 {
@@ -52,9 +54,10 @@ namespace MccModSwapper
 
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			var helpDialog = new Help();
+			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				return;
 
-			helpDialog.ShowDialog(this);
+			Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/0xdeafcafe/MccModSwapper"));
 		}
 
 		private void btnPath_Click(object sender, EventArgs e)
