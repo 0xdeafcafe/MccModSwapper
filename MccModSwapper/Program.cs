@@ -18,7 +18,7 @@ namespace MccModSwapper
 			var loggerFactory = new LoggerFactory();
 			var loggerConfig = new LoggerConfiguration()
 				.WriteTo.Console()
-				.WriteTo.File("logs*.txt", rollingInterval: RollingInterval.Day)
+				.WriteTo.File("logs.txt", rollingInterval: RollingInterval.Day)
 				.CreateLogger();
 
 			loggerFactory.AddSerilog(loggerConfig);
