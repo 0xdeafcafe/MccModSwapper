@@ -1,9 +1,9 @@
-﻿using Emet.FileSystems;
-using MccModSwapper.ViewModels;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using MccModSwapper.ViewModels;
+using Emet.FileSystems;
 
 namespace MccModSwapper
 {
@@ -24,8 +24,8 @@ namespace MccModSwapper
 				Program.Logger.LogError(ex, "Failed to load settings, wiping and creating new settings");
 
 				MessageBox.Show(
-					"Settings failed to load",
 					"Unable to load settings, so they have been wiped.For more info check \"logs.txt\" in the application folder.",
+					"Settings failed to load",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 				);
@@ -77,7 +77,7 @@ namespace MccModSwapper
 			if (!Directory.Exists(selectedPath))
 			{
 				Program.Logger.LogInformation("The selected directory doesn't exist", selectedPath, btn.Name);
-				MessageBox.Show("Directory doesn't exist", "The selected directory doesn't exist!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("The selected directory doesn't exist!", "Directory doesn't exist", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 				return;
 			}
@@ -114,14 +114,58 @@ namespace MccModSwapper
 				return;
 
 			var reachPath = $"{ViewModel.MccInstallPath}\\haloreach";
+			var fileInfo = new FileInfo(reachPath);
+			var isSymlink = fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint);
+			var actuallyExists = fileInfo.Attributes.ToString() != "-1"; // Fun hack here bois
 
-			if (!File.Exists(reachPath))
+			// Something exists with the name haloreach, but it isn't a symlink
+			if (!isSymlink && actuallyExists)
+			{
+				var result = MessageBox.Show(
+					"Doing this will delete the existing \"haloreach\" folder in your MCC install path. Are you sure you want to continue?",
+					"Hol up!",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Warning
+				);
+
+				if (result != DialogResult.Yes)
+					return;
+
+				if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+				{
+					Directory.Delete(reachPath, true);
+				}
+				else
+				{
+					try
+					{
+						File.Delete(reachPath);
+					}
+					catch (Exception ex)
+					{
+						Program.Logger.LogError(ex, "Unable to delete the haloreach path, assumed it was a file.", fileInfo.Attributes);
+
+						MessageBox.Show(
+							"There was an issue deleting the \"haloreach\" file in the MCC install path. Check the log file.",
+							"Well that isn't good.",
+							MessageBoxButtons.OK,
+							MessageBoxIcon.Error
+						);
+
+						return;
+					}
+				}
+			}
+
+			// If it's a symlink, just delete as it's safe
+			if (isSymlink && actuallyExists)
 				Directory.Delete(reachPath);
 
-			if (ViewModel.SwitchToClean)
-				FileSystem.CreateSymbolicLink(ViewModel.ReachModsPath, reachPath, FileType.LinkTargetHintNotAvailable);
-			else if (ViewModel.SwitchToMods)
-				FileSystem.CreateSymbolicLink(ViewModel.ReachCleanPath, reachPath, FileType.LinkTargetHintNotAvailable);
+			// Decide which type of symlink to create..
+			if (ViewModel.SwitchToMods)
+				FileSystem.CreateSymbolicLink(ViewModel.ReachModsPath, reachPath, FileType.SymbolicLink);
+			else if (ViewModel.SwitchToClean)
+				FileSystem.CreateSymbolicLink(ViewModel.ReachCleanPath, reachPath, FileType.SymbolicLink);
 		}
 	}
 }

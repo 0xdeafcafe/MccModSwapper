@@ -1,8 +1,8 @@
-﻿using Emet.FileSystems;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System.IO;
+using Emet.FileSystems;
 using Newtonsoft.Json;
 using SemVer;
-using System.IO;
 
 namespace MccModSwapper.ViewModels
 {
@@ -14,7 +14,7 @@ namespace MccModSwapper.ViewModels
 		[JsonIgnore]
 		public static string CurrentVersion { get { return "1.0.0"; } }
 
-		public string SavedVersion { get { return "1.0.0"; } }
+		public string Version { get { return "1.0.0"; } }
 
 		public string MccInstallPath
 		{
@@ -88,6 +88,9 @@ namespace MccModSwapper.ViewModels
 
 		private void CheckSymbolicStatus()
 		{
+			SwitchToMods = false;
+			SwitchToClean = false;
+
 			if (!PathsValid)
 				return;
 
@@ -96,22 +99,16 @@ namespace MccModSwapper.ViewModels
 			var isSymlink = reachPathInfo.Attributes.HasFlag(FileAttributes.ReparsePoint);
 
 			if (!isSymlink)
-			{
-				SwitchToMods = false;
-				SwitchToClean = false;
-
 				return;
-			}
 
 			try
 			{
 				var symLink = FileSystem.ReadLink(reachPath);
 
-				if (symLink == null)
-				{
-					SwitchToMods = false;
-					SwitchToClean = false;
-				}
+				if (symLink == ReachModsPath)
+					SwitchToMods = true;
+				else if (symLink == ReachCleanPath)
+					SwitchToClean = true;
 			}
 			catch (IOException ex)
 			{
@@ -121,11 +118,6 @@ namespace MccModSwapper.ViewModels
 				{
 					// TODO(afr): Write messagebox
 				}
-			}
-			finally
-			{
-				SwitchToMods = false;
-				SwitchToClean = false;
 			}
 		}
 
@@ -161,10 +153,10 @@ namespace MccModSwapper.ViewModels
 			var viewModel = JsonConvert.DeserializeObject<MainViewModel>(viewModelString);
 			var range = new Range($"~{CurrentVersion}");
 
-			if (range.IsSatisfied(viewModel.SavedVersion))
+			if (range.IsSatisfied(viewModel.Version))
 				return viewModel;
 
-			Program.Logger.LogInformation("Settings version does not match, discarding", viewModel.SavedVersion, CurrentVersion);
+			Program.Logger.LogInformation("Settings version does not match, discarding", viewModel.Version, CurrentVersion);
 
 			return DiscardAndSaveNew();
 		}

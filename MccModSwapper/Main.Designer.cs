@@ -190,7 +190,7 @@ namespace MccModSwapper
 			this.rbSwitchClean.Size = new System.Drawing.Size(105, 19);
 			this.rbSwitchClean.TabIndex = 0;
 			this.rbSwitchClean.TabStop = true;
-			this.rbSwitchClean.Text = "Switch to clean";
+			this.rbSwitchClean.Text = "Switch to clean content";
 			this.rbSwitchClean.UseVisualStyleBackColor = true;
 			// 
 			// rbSwitchMods
@@ -201,7 +201,7 @@ namespace MccModSwapper
 			this.rbSwitchMods.Size = new System.Drawing.Size(107, 19);
 			this.rbSwitchMods.TabIndex = 0;
 			this.rbSwitchMods.TabStop = true;
-			this.rbSwitchMods.Text = "Switch to mods";
+			this.rbSwitchMods.Text = "Switch to modded content";
 			this.rbSwitchMods.UseVisualStyleBackColor = true;
 			// 
 			// btnHelp
