@@ -1,4 +1,5 @@
-﻿using MccModSwapper.ViewModels;
+﻿using Emet.FileSystems;
+using MccModSwapper.ViewModels;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -42,6 +43,11 @@ namespace MccModSwapper
 
 			txtReachCleanPath.DataBindings.Add("Text", ViewModel, "ReachCleanPath", false, DataSourceUpdateMode.OnPropertyChanged);
 			txtReachCleanPath.DataBindings.Add("IsValid", ViewModel, "ReachCleanPathValid", false, DataSourceUpdateMode.OnPropertyChanged);
+
+			rbSwitchMods.DataBindings.Add("Checked", ViewModel, "SwitchToMods", false, DataSourceUpdateMode.OnPropertyChanged);
+			rbSwitchClean.DataBindings.Add("Checked", ViewModel, "SwitchToClean", false, DataSourceUpdateMode.OnPropertyChanged);
+
+			btnDoSwap.DataBindings.Add("Enabled", ViewModel, "PathsValid", false, DataSourceUpdateMode.OnPropertyChanged);
 		}
 
 		private void btnHelp_Click(object sender, EventArgs e)
@@ -95,6 +101,27 @@ namespace MccModSwapper
 			}
 
 			ViewModel.Save();
+		}
+
+		private void btnDoSwap_Click(object sender, EventArgs e)
+		{
+			// TODO(afr): Add logging and message boxes here
+
+			if (!ViewModel.PathsValid)
+				return;
+
+			if (!ViewModel.SwitchToMods && !ViewModel.SwitchToClean)
+				return;
+
+			var reachPath = $"{ViewModel.MccInstallPath}\\haloreach";
+
+			if (!File.Exists(reachPath))
+				Directory.Delete(reachPath);
+
+			if (ViewModel.SwitchToClean)
+				FileSystem.CreateSymbolicLink(ViewModel.ReachModsPath, reachPath, FileType.LinkTargetHintNotAvailable);
+			else if (ViewModel.SwitchToMods)
+				FileSystem.CreateSymbolicLink(ViewModel.ReachCleanPath, reachPath, FileType.LinkTargetHintNotAvailable);
 		}
 	}
 }

@@ -180,6 +180,7 @@ namespace MccModSwapper
 			this.btnDoSwap.TabIndex = 1;
 			this.btnDoSwap.Text = "Do le swap";
 			this.btnDoSwap.UseVisualStyleBackColor = true;
+			this.btnDoSwap.Click += new System.EventHandler(this.btnDoSwap_Click);
 			// 
 			// rbSwitchClean
 			// 
