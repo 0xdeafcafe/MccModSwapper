@@ -4,6 +4,10 @@ Easily switch between modded and clean content on MCC for the PC.
 
 ![le app](Assets/ApplicationImage.png)
 
+## Download?
+
+Just head over to the [releases](https://github.com/0xdeafcafe/MccModSwapper/releases) section and grab the latest release.
+
 ## Usage
 
 1. Copy all of the files and folders in the `haloreach` folder in your MCC install directory somewhere else. One folder with just clean files, and one where you'll keep your modified content.
