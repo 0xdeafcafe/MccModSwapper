@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using MccModSwapper.ViewModels;
 using Emet.FileSystems;
+using MccModSwapper.Enums;
 
 namespace MccModSwapper
 {
@@ -44,8 +45,7 @@ namespace MccModSwapper
 			txtReachCleanPath.DataBindings.Add("Text", ViewModel, "ReachCleanPath", false, DataSourceUpdateMode.OnPropertyChanged);
 			txtReachCleanPath.DataBindings.Add("IsValid", ViewModel, "ReachCleanPathValid", false, DataSourceUpdateMode.OnPropertyChanged);
 
-			rbSwitchMods.DataBindings.Add("Checked", ViewModel, "SwitchToMods", false, DataSourceUpdateMode.OnPropertyChanged);
-			rbSwitchClean.DataBindings.Add("Checked", ViewModel, "SwitchToClean", false, DataSourceUpdateMode.OnPropertyChanged);
+			gbSwitcher.DataBindings.Add("Selected", ViewModel, "SwitchMode", false, DataSourceUpdateMode.OnPropertyChanged);
 
 			btnDoSwap.DataBindings.Add("Enabled", ViewModel, "PathsValid", false, DataSourceUpdateMode.OnPropertyChanged);
 		}
@@ -103,6 +103,12 @@ namespace MccModSwapper
 			ViewModel.Save();
 		}
 
+		private void gbSwitcher_SelectedChanged(object sender, EventArgs e)
+		{
+			if (sender is RadioButton radioButton)
+				ViewModel.SwitchMode = (SwitchMode)radioButton.Tag;
+		}
+
 		private void btnDoSwap_Click(object sender, EventArgs e)
 		{
 			// TODO(afr): Add logging and message boxes here
@@ -110,7 +116,7 @@ namespace MccModSwapper
 			if (!ViewModel.PathsValid)
 				return;
 
-			if (!ViewModel.SwitchToMods && !ViewModel.SwitchToClean)
+			if (ViewModel.SwitchMode == SwitchMode.Unknown)
 				return;
 
 			var reachPath = $"{ViewModel.MccInstallPath}\\haloreach";
@@ -162,10 +168,20 @@ namespace MccModSwapper
 				Directory.Delete(reachPath);
 
 			// Decide which type of symlink to create..
-			if (ViewModel.SwitchToMods)
-				FileSystem.CreateSymbolicLink(ViewModel.ReachModsPath, reachPath, FileType.SymbolicLink);
-			else if (ViewModel.SwitchToClean)
-				FileSystem.CreateSymbolicLink(ViewModel.ReachCleanPath, reachPath, FileType.SymbolicLink);
+			switch(ViewModel.SwitchMode)
+			{
+				case SwitchMode.Mods:
+					FileSystem.CreateSymbolicLink(ViewModel.ReachModsPath, reachPath, FileType.SymbolicLink);
+					break;
+				case SwitchMode.Clean:
+					FileSystem.CreateSymbolicLink(ViewModel.ReachCleanPath, reachPath, FileType.SymbolicLink);
+					break;
+
+				default:
+					Program.Logger.LogError("Unknown SwitchMode specified", ViewModel.SwitchMode);
+
+					return;
+			}
 		}
 	}
 }

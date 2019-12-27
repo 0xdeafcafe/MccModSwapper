@@ -40,7 +40,7 @@ namespace MccModSwapper
 			this.lblReachModsPath = new System.Windows.Forms.Label();
 			this.btnReachModsPath = new System.Windows.Forms.Button();
 			this.txtReachModsPath = new ExtendedTextBox();
-			this.gbSwitcher = new System.Windows.Forms.GroupBox();
+			this.gbSwitcher = new RadioGroupBox();
 			this.btnDoSwap = new System.Windows.Forms.Button();
 			this.rbSwitchClean = new System.Windows.Forms.RadioButton();
 			this.rbSwitchMods = new System.Windows.Forms.RadioButton();
@@ -169,6 +169,7 @@ namespace MccModSwapper
 			this.gbSwitcher.TabIndex = 4;
 			this.gbSwitcher.TabStop = false;
 			this.gbSwitcher.Text = "Switcher";
+			this.gbSwitcher.SelectedChanged += gbSwitcher_SelectedChanged;
 			// 
 			// btnDoSwap
 			// 
@@ -182,17 +183,6 @@ namespace MccModSwapper
 			this.btnDoSwap.UseVisualStyleBackColor = true;
 			this.btnDoSwap.Click += new System.EventHandler(this.btnDoSwap_Click);
 			// 
-			// rbSwitchClean
-			// 
-			this.rbSwitchClean.AutoSize = true;
-			this.rbSwitchClean.Location = new System.Drawing.Point(6, 47);
-			this.rbSwitchClean.Name = "rbSwitchClean";
-			this.rbSwitchClean.Size = new System.Drawing.Size(105, 19);
-			this.rbSwitchClean.TabIndex = 0;
-			this.rbSwitchClean.TabStop = true;
-			this.rbSwitchClean.Text = "Switch to clean content";
-			this.rbSwitchClean.UseVisualStyleBackColor = true;
-			// 
 			// rbSwitchMods
 			// 
 			this.rbSwitchMods.AutoSize = true;
@@ -203,6 +193,19 @@ namespace MccModSwapper
 			this.rbSwitchMods.TabStop = true;
 			this.rbSwitchMods.Text = "Switch to modded content";
 			this.rbSwitchMods.UseVisualStyleBackColor = true;
+			this.rbSwitchMods.Tag = 0;
+			// 
+			// rbSwitchClean
+			// 
+			this.rbSwitchClean.AutoSize = true;
+			this.rbSwitchClean.Location = new System.Drawing.Point(6, 47);
+			this.rbSwitchClean.Name = "rbSwitchClean";
+			this.rbSwitchClean.Size = new System.Drawing.Size(105, 19);
+			this.rbSwitchClean.TabIndex = 0;
+			this.rbSwitchClean.TabStop = true;
+			this.rbSwitchClean.Text = "Switch to clean content";
+			this.rbSwitchClean.UseVisualStyleBackColor = true;
+			this.rbSwitchClean.Tag = 1;
 			// 
 			// btnHelp
 			// 
@@ -250,7 +253,7 @@ namespace MccModSwapper
 		private System.Windows.Forms.Label lblReachModsPath;
 		private System.Windows.Forms.Button btnReachModsPath;
 		private ExtendedTextBox txtReachModsPath;
-		private System.Windows.Forms.GroupBox gbSwitcher;
+		private RadioGroupBox gbSwitcher;
 		private System.Windows.Forms.Button btnDoSwap;
 		private System.Windows.Forms.RadioButton rbSwitchClean;
 		private System.Windows.Forms.RadioButton rbSwitchMods;

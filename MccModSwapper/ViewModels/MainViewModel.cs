@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.IO;
 using Emet.FileSystems;
+using MccModSwapper.Enums;
 using Newtonsoft.Json;
 using SemVer;
 
@@ -71,25 +72,16 @@ namespace MccModSwapper.ViewModels
 		public bool PathsValid { get { return MccInstallPathValid && ReachModsPathValid && ReachCleanPathValid; } }
 
 		[JsonIgnore]
-		public bool SwitchToMods
+		public SwitchMode SwitchMode
 		{
-			get { return _switchToMods; }
-			set { SetField(ref _switchToMods, value, "SwitchToMods"); }
+			get { return _switchMode; }
+			set { SetField(ref _switchMode, value, "SwitchMode"); }
 		}
-		private bool _switchToMods;
-
-		[JsonIgnore]
-		public bool SwitchToClean
-		{
-			get { return _switchToClean; }
-			set { SetField(ref _switchToClean, value, "SwitchToClean"); }
-		}
-		private bool _switchToClean;
+		private SwitchMode _switchMode = SwitchMode.Unknown;
 
 		private void CheckSymbolicStatus()
 		{
-			SwitchToMods = false;
-			SwitchToClean = false;
+			SwitchMode = SwitchMode.Unknown;
 
 			if (!PathsValid)
 				return;
@@ -106,9 +98,9 @@ namespace MccModSwapper.ViewModels
 				var symLink = FileSystem.ReadLink(reachPath);
 
 				if (symLink == ReachModsPath)
-					SwitchToMods = true;
+					SwitchMode = SwitchMode.Mods;
 				else if (symLink == ReachCleanPath)
-					SwitchToClean = true;
+					SwitchMode = SwitchMode.Clean;
 			}
 			catch (IOException ex)
 			{

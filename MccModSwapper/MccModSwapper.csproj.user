@@ -5,6 +5,9 @@
     <Compile Update="Controls\ExtendedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\RadioGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Help.cs">
       <SubType>Form</SubType>
     </Compile>
