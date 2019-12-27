@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Emet.FileSystems;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SemVer;
 using System.IO;
 
 namespace MccModSwapper.ViewModels
@@ -9,6 +11,11 @@ namespace MccModSwapper.ViewModels
 		[JsonIgnore]
 		private const string _storagePath = "settings.json";
 
+		[JsonIgnore]
+		public static string CurrentVersion { get { return "1.0.0"; } }
+
+		public string SavedVersion { get { return "1.0.0"; } }
+
 		public string MccInstallPath
 		{
 			get { return _mccInstallPath; }
@@ -17,6 +24,7 @@ namespace MccModSwapper.ViewModels
 				SetField(ref _mccInstallPath, value, "MccInstallPath");
 				OnPropertyChanged("MccInstallPathValid");
 				OnPropertyChanged("PathsValid");
+				CheckSymbolicStatus();
 				SaveIfValid();
 			}
 		}
@@ -30,6 +38,7 @@ namespace MccModSwapper.ViewModels
 				SetField(ref _reachModsPath, value, "ReachModsPath");
 				OnPropertyChanged("ReachModsPathValid");
 				OnPropertyChanged("PathsValid");
+				CheckSymbolicStatus();
 				SaveIfValid();
 			}
 		}
@@ -43,6 +52,7 @@ namespace MccModSwapper.ViewModels
 				SetField(ref _reachCleanPath, value, "ReachCleanPath");
 				OnPropertyChanged("ReachCleanPathValid");
 				OnPropertyChanged("PathsValid");
+				CheckSymbolicStatus();
 				SaveIfValid();
 			}
 		}
@@ -60,6 +70,70 @@ namespace MccModSwapper.ViewModels
 		[JsonIgnore]
 		public bool PathsValid { get { return MccInstallPathValid && ReachModsPathValid && ReachCleanPathValid; } }
 
+		[JsonIgnore]
+		public bool SwitchToMods
+		{
+			get { return _switchToMods; }
+			set { SetField(ref _switchToMods, value, "SwitchToMods"); }
+		}
+		private bool _switchToMods;
+
+		[JsonIgnore]
+		public bool SwitchToClean
+		{
+			get { return _switchToClean; }
+			set { SetField(ref _switchToClean, value, "SwitchToClean"); }
+		}
+		private bool _switchToClean;
+
+		private void CheckSymbolicStatus()
+		{
+			if (!PathsValid)
+				return;
+
+			var reachPath = $"{MccInstallPath}\\haloreach";
+			var reachPathInfo = new FileInfo(reachPath);
+			var isSymlink = reachPathInfo.Attributes.HasFlag(FileAttributes.ReparsePoint);
+
+			if (!isSymlink)
+			{
+				SwitchToMods = false;
+				SwitchToClean = false;
+
+				return;
+			}
+
+			try
+			{
+				var symLink = FileSystem.ReadLink(reachPath);
+
+				if (symLink == null)
+				{
+					SwitchToMods = false;
+					SwitchToClean = false;
+				}
+			}
+			catch (IOException ex)
+			{
+				Program.Logger.LogError(ex, "Unable to read haloreach path in MCC install directory");
+
+				if (ex.HResult != 2)
+				{
+					// TODO(afr): Write messagebox
+				}
+			}
+			finally
+			{
+				SwitchToMods = false;
+				SwitchToClean = false;
+			}
+		}
+
+		public void Save()
+		{
+			File.WriteAllText(_storagePath, JsonConvert.SerializeObject(this));
+		}
+
 		private void SaveIfValid()
 		{
 			if (!PathsValid)
@@ -68,11 +142,6 @@ namespace MccModSwapper.ViewModels
 			Program.Logger.LogInformation("Paths are valid, saving settings");
 
 			Save();
-		}
-		
-		public void Save()
-		{
-			File.WriteAllText(_storagePath, JsonConvert.SerializeObject(this));
 		}
 
 		public static MainViewModel Load()
@@ -83,18 +152,30 @@ namespace MccModSwapper.ViewModels
 			{
 				Program.Logger.LogInformation("No settings found, creating new");
 
-				var newViewModel = new MainViewModel();
-
-				newViewModel.Save();
-
-				return newViewModel;
+				return DiscardAndSaveNew();
 			}
 
 			Program.Logger.LogInformation("Existing settings found, deseralizing");
 
 			var viewModelString = File.ReadAllText(_storagePath);
+			var viewModel = JsonConvert.DeserializeObject<MainViewModel>(viewModelString);
+			var range = new Range($"~{CurrentVersion}");
 
-			return JsonConvert.DeserializeObject<MainViewModel>(viewModelString);
+			if (range.IsSatisfied(viewModel.SavedVersion))
+				return viewModel;
+
+			Program.Logger.LogInformation("Settings version does not match, discarding", viewModel.SavedVersion, CurrentVersion);
+
+			return DiscardAndSaveNew();
+		}
+
+		private static MainViewModel DiscardAndSaveNew()
+		{
+			var newViewModel = new MainViewModel();
+
+			newViewModel.Save();
+
+			return newViewModel;
 		}
 	}
 }
